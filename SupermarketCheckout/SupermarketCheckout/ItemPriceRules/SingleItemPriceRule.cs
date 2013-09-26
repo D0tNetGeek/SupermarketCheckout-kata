@@ -10,8 +10,12 @@ namespace SupermarketCheckout.ItemPriceRules
     {
         public decimal CalculatePrice(List<char> itemsLeft)
         {
-            return itemsLeft.Where(ItemCodePriceMap.Keys.Contains)
+            decimal price = itemsLeft.Where(ItemCodePriceMap.Keys.Contains)
                             .Sum(item => ItemCodePriceMap[item]);
+
+            itemsLeft.RemoveAll(ItemCodePriceMap.Keys.Contains);
+
+            return price;
         }
 
 
