@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SupermarketCheckout.ItemPriceRules;
 
 namespace SupermarketCheckout
 {
     public class Checkout : ICheckout
     {
+        private readonly IItemPriceRule[] _itemPriceRules;
+
         private readonly List<char> _scannedItems;
 
         public Checkout()
         {
+            _itemPriceRules = new[] {new SingleItemPriceRule()};
             _scannedItems = new List<char>();
         }
 
@@ -24,27 +28,20 @@ namespace SupermarketCheckout
         {
             decimal total = decimal.Zero;
 
-            foreach (var item in _scannedItems)
-            {
-                decimal tmp;
-                if (!ItemCodePriceMap.TryGetValue(item, out tmp))
-                {
-                    throw new ApplicationException("Invalid item: " + item);
-                }
+            var itemsLeft = new List<char>(_scannedItems);
 
-                total += tmp;
+            foreach (var itemPriceRule in _itemPriceRules)
+            {
+                total += itemPriceRule.CalculatePrice(itemsLeft); 
+            }
+
+            if (itemsLeft.Count != 0)
+            {
+                throw new ApplicationException("Invalid items: " + string.Join(", ", itemsLeft));
             }
 
             return total;
         }
 
-        private static readonly IReadOnlyDictionary<char, decimal> ItemCodePriceMap
-            = new Dictionary<char, decimal>()
-            {
-                {'A', 50m},
-                {'B', 30m},
-                {'C', 20m},
-                {'D', 15m}
-            };
     }
 }
