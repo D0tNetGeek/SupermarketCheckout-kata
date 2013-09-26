@@ -15,7 +15,7 @@ namespace SupermarketCheckout
 
         public Checkout()
         {
-            _itemPriceRules = new[] {new SingleItemPriceRule()};
+            _itemPriceRules = new IItemPriceRule[] {new ThreeAItemPriceRule(), new SingleItemPriceRule()};
             _scannedItems = new List<char>();
         }
 

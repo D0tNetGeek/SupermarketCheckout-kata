@@ -47,6 +47,21 @@ namespace SupermarketCheckout.Tests
         }
 
         [Test]
+        public void ScanningThreeAItemsReturnsCorrectPrice()
+        {
+            const decimal expectedPrice = 130.0m;
+            var checkout = CreateCheckout();
+
+            checkout.Scan('A');
+            checkout.Scan('A');
+            checkout.Scan('A');
+            
+            var actualPrice = checkout.CalculateTotal();
+
+            Assert.AreEqual(expectedPrice, actualPrice);
+        }
+
+        [Test]
         [ExpectedException]
         public void ScanningAnInvalidItemThrowsExceptionOnCalculateTotal()
         {
