@@ -76,6 +76,73 @@ namespace SupermarketCheckout.Tests
         }
 
         [Test]
+        public void ScanningThreeAAndTwoBItemsReturnsCorrectPrice()
+        {
+            const decimal expectedPrice = 175.0m;
+            var checkout = CreateCheckout();
+
+            checkout.Scan('A');
+            checkout.Scan('A');
+            checkout.Scan('A'); 
+            
+            checkout.Scan('B');
+            checkout.Scan('B');
+
+            var actualPrice = checkout.CalculateTotal();
+
+            Assert.AreEqual(expectedPrice, actualPrice); 
+        }
+
+        [Test]
+        public void ScanningThreeAAndTwoBItemsNotInOrderReturnsCorrectPrice()
+        {
+            const decimal expectedPrice = 175.0m;
+            var checkout = CreateCheckout();
+
+            checkout.Scan('A');
+            checkout.Scan('B');
+            checkout.Scan('A');
+            checkout.Scan('B');
+            checkout.Scan('A');
+
+            var actualPrice = checkout.CalculateTotal();
+
+            Assert.AreEqual(expectedPrice, actualPrice);
+        }
+
+        [Test]
+        public void ScanningThreeAWithExtraSingleCItemReturnsCorrectPrice()
+        {
+            const decimal expectedPrice = 150.0m;
+            var checkout = CreateCheckout();
+
+            checkout.Scan('A');
+            checkout.Scan('A');
+            checkout.Scan('A');
+            checkout.Scan('C');
+
+            var actualPrice = checkout.CalculateTotal();
+
+            Assert.AreEqual(expectedPrice, actualPrice);
+        }
+
+        [Test]
+        public void ScanningThreeAWithExtraSingleCItemNotInOrderReturnsCorrectPrice()
+        {
+            const decimal expectedPrice = 150.0m;
+            var checkout = CreateCheckout();
+
+            checkout.Scan('A');
+            checkout.Scan('C');
+            checkout.Scan('A');
+            checkout.Scan('A');
+
+            var actualPrice = checkout.CalculateTotal();
+
+            Assert.AreEqual(expectedPrice, actualPrice);
+        }
+
+        [Test]
         [ExpectedException]
         public void ScanningAnInvalidItemThrowsExceptionOnCalculateTotal()
         {
