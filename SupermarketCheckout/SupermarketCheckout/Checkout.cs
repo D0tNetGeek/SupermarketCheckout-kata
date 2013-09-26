@@ -7,16 +7,15 @@ using SupermarketCheckout.ItemPriceRules;
 
 namespace SupermarketCheckout
 {
-    public class Checkout : ICheckout
+    internal class Checkout : ICheckout
     {
         private readonly IEnumerable<IItemPriceRule> _itemPriceRules;
 
         private readonly List<char> _scannedItems;
 
-        public Checkout()
+        public Checkout(IEnumerable<IItemPriceRule> itemPriceRules)
         {
-            var itemPriceRuleFactory = new ItemPriceRuleFactory();
-            _itemPriceRules = itemPriceRuleFactory.GetAllItemPriceRules();
+            _itemPriceRules = itemPriceRules;
             _scannedItems = new List<char>();
         }
 

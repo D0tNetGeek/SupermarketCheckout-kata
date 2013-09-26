@@ -157,7 +157,7 @@ namespace SupermarketCheckout.Tests
 
         private static ICheckout CreateCheckout()
         {
-            return new Checkout();
+            return new CheckoutFactory().CreateCheckout();
         }
     }
 }

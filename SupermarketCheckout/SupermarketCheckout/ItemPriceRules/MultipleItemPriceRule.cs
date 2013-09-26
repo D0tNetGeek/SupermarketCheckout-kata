@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace SupermarketCheckout.ItemPriceRules
 {
-    public class MultipleItemPriceRule : IItemPriceRule
+    internal class MultipleItemPriceRule : IItemPriceRule
     {
-        private readonly char _itemSku = 'A';
-        private readonly decimal  _itemBundlePrice = 130;
-        private readonly decimal _itemsInBundle = 3;
+        private readonly char _itemSku;
+        private readonly decimal  _itemBundlePrice;
+        private readonly decimal _itemsInBundle;
 
         public MultipleItemPriceRule(char itemSku, decimal itemBundlePrice, decimal itemsInBundle)
         {
