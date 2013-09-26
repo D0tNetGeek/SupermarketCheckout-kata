@@ -26,6 +26,26 @@ namespace SupermarketCheckout.Tests
             Assert.AreEqual(expectedPrice, actualPrice);
         }
 
+        [TestCase(new[] { 'A', 'B' }, 80.0)]
+        [TestCase(new[] { 'A', 'C' }, 70.0)]
+        [TestCase(new[] { 'A', 'D' }, 65.0)]
+        [TestCase(new[] { 'B', 'C' }, 50.0)]
+        [TestCase(new[] { 'B', 'D' }, 45.0)]
+        [TestCase(new[] { 'C', 'D' }, 35.0)]
+        public void ScanningMultipleSingleItemsReturnsCorrectPrice(char[] items, decimal expectedPrice)
+        {
+            var checkout = CreateCheckout();
+
+            foreach (var item in items)
+            {
+                checkout.Scan(item);               
+            }
+
+            var actualPrice = checkout.CalculateTotal();
+
+            Assert.AreEqual(expectedPrice, actualPrice);
+        }
+
         [Test]
         [ExpectedException]
         public void ScanningAnInvalidItemThrowsExceptionOnCalculateTotal()

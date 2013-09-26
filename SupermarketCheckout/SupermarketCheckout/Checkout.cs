@@ -8,20 +8,31 @@ namespace SupermarketCheckout
 {
     public class Checkout : ICheckout
     {
-        private char _scannedItem;
+        private readonly List<char> _scannedItems;
+
+        public Checkout()
+        {
+            _scannedItems = new List<char>();
+        }
 
         public void Scan(char item)
         {
-            _scannedItem = item;
+            _scannedItems.Add(item);
         }
 
         public decimal CalculateTotal()
         {
-            decimal total;
+            decimal total = decimal.Zero;
 
-            if (!ItemCodePriceMap.TryGetValue(_scannedItem, out total))
+            foreach (var item in _scannedItems)
             {
-                throw new ApplicationException("Invalid item: " + _scannedItem);
+                decimal tmp;
+                if (!ItemCodePriceMap.TryGetValue(item, out tmp))
+                {
+                    throw new ApplicationException("Invalid item: " + item);
+                }
+
+                total += tmp;
             }
 
             return total;
