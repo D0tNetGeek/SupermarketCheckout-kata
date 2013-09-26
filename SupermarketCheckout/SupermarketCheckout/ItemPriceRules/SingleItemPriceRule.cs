@@ -8,24 +8,24 @@ namespace SupermarketCheckout.ItemPriceRules
 {
     internal class SingleItemPriceRule : IItemPriceRule
     {
+        private readonly char _itemSku;
+        private readonly decimal _price;
+
+        public SingleItemPriceRule(char itemSku, decimal price)
+        {
+            _itemSku = itemSku;
+            _price = price;
+        }
+
         public decimal CalculatePrice(List<char> itemsLeft)
         {
-            decimal price = itemsLeft.Where(ItemCodePriceMap.Keys.Contains)
-                            .Sum(item => ItemCodePriceMap[item]);
+            decimal itemCount = itemsLeft.Count(x => x == _itemSku);
 
-            itemsLeft.RemoveAll(ItemCodePriceMap.Keys.Contains);
+            decimal price = itemCount * _price;
+
+            itemsLeft.RemoveAll(x => x == _itemSku);
 
             return price;
         }
-
-
-        private static readonly IReadOnlyDictionary<char, decimal> ItemCodePriceMap
-            = new Dictionary<char, decimal>()
-            {
-                {'A', 50m},
-                {'B', 30m},
-                {'C', 20m},
-                {'D', 15m}
-            };
     }
 }

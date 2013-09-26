@@ -9,7 +9,7 @@ namespace SupermarketCheckout
 {
     public class Checkout : ICheckout
     {
-        private readonly IItemPriceRule[] _itemPriceRules;
+        private readonly IEnumerable<IItemPriceRule> _itemPriceRules;
 
         private readonly List<char> _scannedItems;
 
