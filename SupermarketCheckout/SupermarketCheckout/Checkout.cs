@@ -17,7 +17,14 @@ namespace SupermarketCheckout
 
         public decimal CalculateTotal()
         {
-            return ItemCodePriceMap[_scannedItem];
+            decimal total;
+
+            if (!ItemCodePriceMap.TryGetValue(_scannedItem, out total))
+            {
+                throw new ApplicationException("Invalid item: " + _scannedItem);
+            }
+
+            return total;
         }
 
         private static readonly IReadOnlyDictionary<char, decimal> ItemCodePriceMap

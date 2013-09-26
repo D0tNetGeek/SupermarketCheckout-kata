@@ -26,6 +26,17 @@ namespace SupermarketCheckout.Tests
             Assert.AreEqual(expectedPrice, actualPrice);
         }
 
+        [Test]
+        [ExpectedException]
+        public void ScanningAnInvalidItemThrowsExceptionOnCalculateTotal()
+        {
+            var checkout = CreateCheckout();
+
+            checkout.Scan('Z');
+
+            checkout.CalculateTotal();
+        }
+
 
 
         private static ICheckout CreateCheckout()
