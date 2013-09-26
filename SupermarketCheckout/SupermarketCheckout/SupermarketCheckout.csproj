@@ -43,7 +43,8 @@
     <Compile Include="ICheckout.cs" />
     <Compile Include="IItemPriceRule.cs" />
     <Compile Include="ItemPriceRules\SingleItemPriceRule.cs" />
-    <Compile Include="ItemPriceRules\ThreeAItemPriceRule.cs" />
+    <Compile Include="ItemPriceRules\MultipleItemPriceRule.cs" />
+    <Compile Include="ItemPriceRuleFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

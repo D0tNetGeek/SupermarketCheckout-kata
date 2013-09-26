@@ -15,7 +15,8 @@ namespace SupermarketCheckout
 
         public Checkout()
         {
-            _itemPriceRules = new IItemPriceRule[] {new ThreeAItemPriceRule(), new SingleItemPriceRule()};
+            var itemPriceRuleFactory = new ItemPriceRuleFactory();
+            _itemPriceRules = itemPriceRuleFactory.GetAllItemPriceRules();
             _scannedItems = new List<char>();
         }
 
